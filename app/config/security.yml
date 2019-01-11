@@ -8,7 +8,10 @@ security:
     providers:
         in_memory:
             memory: ~
-
+        my_db_provider:
+            entity:
+                class: AppBundle:Usuario
+                property: username
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:

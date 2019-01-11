@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Usuario;
 use AppBundle\Form\UsuarioType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends Controller
 {
@@ -20,6 +21,22 @@ class DefaultController extends Controller
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
         ]);
+    }
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction(AuthenticationUtils $authenticationUtils)
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('default/login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
     }
     /**
      * @Route("/registro", name="registro")
@@ -46,7 +63,7 @@ class DefaultController extends Controller
           // ... do any other work - like sending them an email, etc
           // maybe set a "flash" success message for the user
 
-          return $this->redirectToRoute('homepage');
+          return $this->redirectToRoute('usuarios');
       }
 
       return $this->render(
