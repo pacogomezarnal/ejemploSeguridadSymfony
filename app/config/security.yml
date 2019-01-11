@@ -17,7 +17,17 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+        admin:
+            pattern: ^/admin
+            provider: my_db_provider
+            #http_basic: ~
+            anonymous: ~
+            form_login:
+                login_path: /admin/login
+                check_path: /admin/login
+            logout:
+                path:   /admin/logout
+                target: /
         main:
             anonymous: ~
             # activate different ways to authenticate
